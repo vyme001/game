@@ -8,7 +8,7 @@ buttons.forEach((btn)=>{
    })
 });
 
-//players
+//playerScore Board
 let PCsScore = 0;
 let usersScore = 0;
 
