@@ -6,4 +6,18 @@ buttons.forEach((btn)=>{
    btn.addEventListener("click",(e)=>{
     console.log(e.target.value);
    })
-}); 
+});
+
+//players
+let PCsScore = 0;
+let usersScore = 0;
+
+
+//gamRules (key)winner:loser(value)
+const positionRules = {
+    "rock":"scissors",
+    "scissors":"paper",
+    "paper":"rock",
+};
+
+
