@@ -26,16 +26,35 @@ function PCposition(){
     currPositions.pc = positions[Math.floor(Math.random() * positions.length)];
 };
 
+//executes score assignment for user and pc
+function scoreRunner(inn) {
+        currPositions.user = inn;
+        PCposition();
+        console.log(currPositions);
+};
 
 
-//USER position listener
+//analyzes currentScores
+function analyzeScores(){
+    switch(currPositions.user){
+        case "rock":
+            currPositions.pc === "paper" ? console.log(`${currPositions.pc} beats ${currPositions.user}`) : currPositions.pc === "scissors" ? console.log(`${currPositions.user} beats ${currPositions.pc}`) : console.log('tie');
+        break;
+        case "paper":
+            currPositions.pc === "scissors" ? console.log(`${currPositions.pc} beats ${currPositions.user}`) : currPositions.pc === "rock" ? console.log(`${currPositions.user} beats ${currPositions.pc}`) : console.log('tie');
+        break;
+        case "scissors":
+            currPositions.pc === "rock" ? console.log(`${currPositions.pc} beats ${currPositions.user}`) : currPositions.pc === "paper" ? console.log(`${currPositions.user} beats ${currPositions.pc}`) : console.log('tie');
+        break;
+    }
+}
+
+//USER buttons trigger function
 const buttons = document.querySelectorAll("button");
 buttons.forEach((btn)=>{
     btn.addEventListener("click",(e)=>{
-        currPositions.user = e.target.value;
-        const pcPosition = PCposition();
-        PCposition();
-        console.log(currPositions);
+        scoreRunner(e.target.value);
+        analyzeScores();
         });
 })
 
