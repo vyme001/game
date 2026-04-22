@@ -1,18 +1,18 @@
-//button click functionality
-const buttons = document.querySelectorAll("button");
-buttons.forEach((btn)=>{
-   btn.addEventListener("click",(e)=>{
-    console.log(e.target.value);
-   })
-});
+//playPositions
+currPositions = {
+    user: undefined,
+    pc: undefined,
+};
 
 
 //playerScore Board
-let PCsScore = 0;
-let usersScore = 0;
+const scores = {
+    PCsScore : 0,
+    usersScore: 0,
+};
 
 
-//gamRules (key)winner:loser(value)
+//gameRules (key)winner:loser(value) pair
 const positionRules = {
     "rock":"scissors",
     "scissors":"paper",
@@ -20,17 +20,36 @@ const positionRules = {
 };
 
 
-//pcPosition Generator
-function generatePCposition(){
-    //use obj-keys to return/assign a random value to PC player
-    const arrPositionRules = Object.keys(positionRules);
-    return arrPositionRules[Math.floor(Math.random() * arrPositionRules.length)];    
+//((PC position Generator
+function PCposition(){
+    const positions = Object.keys(positionRules);
+    currPositions.pc = positions[Math.floor(Math.random() * positions.length)];
 };
 
 
+
+//USER position listener
+const buttons = document.querySelectorAll("button");
+buttons.forEach((btn)=>{
+    btn.addEventListener("click",(e)=>{
+        currPositions.user = e.target.value;
+        const pcPosition = PCposition();
+        PCposition();
+        console.log(currPositions);
+        });
+})
+
+
+
+/*
+
 //humanPosition Processor
-const processUserPosition = function(){
-    let humanPosition;
+const generateUserPosition = function(){
+    let humanPosition = document.querySelectorAll("button").forEach((btn)=>{
+        btn.addEventListener("click",(e)=>{
+            console.log(e.target.value);
+        });
+    });
 
     while(!Object.keys(positionRules).includes(humanPosition)){
 
@@ -74,17 +93,20 @@ function gameEngine(PCposition, UserPosition){
 //while no player has gained 5 points;
 // generate player position values
 // giving  those player positions to the gameEngine Fx
-while(PCsScore != 5 && usersScore != 5){
+
+while(scores.PCsScore != 5 && scores.usersScore != 5){
 try {
     const pcsCurrentPosition = generatePCposition();
     const usersCurrentPosition = generateUserPosition();
     gameEngine(pcsCurrentPosition, usersCurrentPosition);
 } catch (e) {
-    console.log(e.message);
+    // console.log(e.message);
 };
 };
 
 //Declare the winner in a alert once either players score reaches the Number value 5
-if(PCsScore === 5 || usersScore === 5){
-  PCsScore > usersScore ? alert(`pc wins! score [${PCsScore} to ${usersScore}]`) : alert(`user wins! score [${usersScore} to ${PCsScore}]`);
+if(scores.PCsScore === 5 || scores.usersScore === 5){
+  scores.PCsScore > scores.usersScore ? alert(`pc wins! score [${scores.PCsScore} to ${scores.usersScore}]`) : alert(`user wins! score [${scores.usersScore} to ${scores.PCsScore}]`);
 };
+
+*/
