@@ -46,10 +46,11 @@ function messagePanel(msg){
 
 function scorePanel(target){
    const pc_scoreCard = document.querySelector("#pc-scoreCard");
+    pc_scoreCard.textContent = scores.pc;
    const usr_scoreCard = document.querySelector("#usr-scoreCard");
-
-   //test logic 
-   target === "pc" ? console.log('pc tagret') : console.log('usr target');;
+   usr_scoreCard.textContent = scores.user;
+//update scores
+   target === "pc" ? scores.pc += 1 : target === "user" ? scores.user += 1 : null;
 }
 
 //a create - catch and release function for notificationPanel messages
@@ -69,13 +70,11 @@ function posLogic(){
           Object.entries(posRules).find((posRule)=>{
             //pc wins round condition
         if(posRule[0] === currPos.pc && posRule[1] === currPos.user){
-            scores.pc += 1;
                     notificationPanel(`pc: (${currPos.pc}) beats ${currPos.user}. Scores: [pc: ${scores.pc}, user: ${scores.user}]`, "pc");
             return;
             //user wins round condition
         } else if(posRule[0] === currPos.user && posRule[1] === currPos.pc){
-            scores.user += 1;
-            notificationPanel(`user: (${currPos.user}) beats ${currPos.pc}. Scores: [user: ${scores.user}, pc: ${scores.pc}]`, "usr")
+            notificationPanel(`user: (${currPos.user}) beats ${currPos.pc}. Scores: [user: ${scores.user}, pc: ${scores.pc}]`, "user")
             return;
         };
         return;
