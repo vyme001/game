@@ -32,25 +32,50 @@ function posAssignment(inn) {
         PCpos();
 };
 
+function messagePanel(msg){
+//new message elemenets
+    const mother = document.querySelector("#new-message")
+    const pMsg = document.createElement("paragraph");
+        pMsg.textContent = msg;
+        mother.appendChild(pMsg);
+        //the relsease/destruction of the new p property
+        setTimeout(()=>{
+            pMsg.remove();
+        },3000); 
+};
 
-//analyze currentScores #take1
- /*
-       compare currPos to rulesObj by;
-       1). match inputs in order as  
-*/
+function scorePanel(target){
+   const pc_scoreCard = document.querySelector("#pc-scoreCard");
+   const usr_scoreCard = document.querySelector("#usr-scoreCard");
+
+   //test logic 
+   target === "pc" ? console.log('pc tagret') : console.log('usr target');;
+}
+
+//a create - catch and release function for notificationPanel messages
+function notificationPanel(msg, target){
+    messagePanel(msg);
+    scorePanel(target);
+}; 
+
+
+
+//game functioning logic
 function posLogic(){
     if(currPos.user === currPos.pc){
         console.log('tie');
         return;
     } else{
-          Object.entries(posRules).find((posRules)=>{
-        if(posRules[0] === currPos.pc && posRules[1] === currPos.user){
+          Object.entries(posRules).find((posRule)=>{
+            //pc wins round condition
+        if(posRule[0] === currPos.pc && posRule[1] === currPos.user){
             scores.pc += 1;
-            console.log(`pc: (${currPos.pc}) beats ${currPos.user}. Scores: [pc: ${scores.pc}, user: ${scores.user}]`);
+                    notificationPanel(`pc: (${currPos.pc}) beats ${currPos.user}. Scores: [pc: ${scores.pc}, user: ${scores.user}]`, "pc");
             return;
-        } else if(posRules[0] === currPos.user && posRules[1] === currPos.pc){
+            //user wins round condition
+        } else if(posRule[0] === currPos.user && posRule[1] === currPos.pc){
             scores.user += 1;
-            console.log(`user: (${currPos.user}) beats ${currPos.pc}. Scores: [user: ${scores.user}, pc: ${scores.pc}]`);
+            notificationPanel(`user: (${currPos.user}) beats ${currPos.pc}. Scores: [user: ${scores.user}, pc: ${scores.pc}]`, "usr")
             return;
         };
         return;
