@@ -28,30 +28,45 @@ function PCpos(){
 
 //executes score assignment for user and pc
 function posAssignment(inn) {
+    if(scores.user === 5 || scores.pc === 5){
+        notificationPanel("End of Game")
+        return;
+    };
         currPos.user = inn;
         PCpos();
 };
 
 function messagePanel(msg){
 //new message elemenets
-    const mother = document.querySelector("#new-message")
+    const mother = document.querySelector("#new-message");
     const pMsg = document.createElement("paragraph");
+            pMsg.id = "p1";
+
+        if(Array.from(mother.childNodes).length > 0){
+            const popIt = document.getElementById("p1");
+            popIt.remove();
+            pMsg.textContent = msg;
+            mother.appendChild(pMsg);
+            return;
+        };
+    
+
         pMsg.textContent = msg;
         mother.appendChild(pMsg);
-        //the relsease/destruction of the new p property
-        setTimeout(()=>{
-            pMsg.remove();
-        },3000); 
 };
 
 function scorePanel(target){
-   const pc_scoreCard = document.querySelector("#pc-scoreCard");
-    pc_scoreCard.textContent = scores.pc;
-   const usr_scoreCard = document.querySelector("#usr-scoreCard");
-   usr_scoreCard.textContent = scores.user;
-//update scores
+    //update scores
+
    target === "pc" ? scores.pc += 1 : target === "user" ? scores.user += 1 : null;
-}
+
+   const pc_scoreCard = document.querySelector("#pc_scoreCard");
+   //direct assignment
+    pc_scoreCard.textContent = scores.pc;
+   const usr_scoreCard = document.querySelector("#user_scoreCard");
+   //direct assignment
+   usr_scoreCard.textContent = scores.user;
+};
 
 //a create - catch and release function for notificationPanel messages
 function notificationPanel(msg, target){
@@ -62,40 +77,42 @@ function notificationPanel(msg, target){
 
 
 //game functioning logic
-function posLogic(){
+function posLogic(e){
     if(currPos.user === currPos.pc){
-        console.log('tie');
+        notificationPanel("Tie!");
         return;
     } else{
           Object.entries(posRules).find((posRule)=>{
             //pc wins round condition
         if(posRule[0] === currPos.pc && posRule[1] === currPos.user){
-                    notificationPanel(`pc: (${currPos.pc}) beats ${currPos.user}. Scores: [pc: ${scores.pc}, user: ${scores.user}]`, "pc");
+                    notificationPanel(`${currPos.pc} beats ${currPos.user}.`, "pc");
             return;
             //user wins round condition
         } else if(posRule[0] === currPos.user && posRule[1] === currPos.pc){
-            notificationPanel(`user: (${currPos.user}) beats ${currPos.pc}. Scores: [user: ${scores.user}, pc: ${scores.pc}]`, "user")
+            notificationPanel(`${currPos.user} beats ${currPos.pc}`, "user")
             return;
         };
-        return;
     });
-         
     };
 };
 
 
-
 //USER buttons trigger function
 const buttons = document.querySelectorAll("button");
-buttons.forEach((btn)=>{
-    btn.addEventListener("click",(e)=>{
-        posAssignment(e.target.value);
-        posLogic();
+    buttons.forEach((btn)=>{
+                btn.addEventListener("click",(e)=>{
+                posAssignment(e.target.value);
+                posLogic(e);
+                checkValue()
+            })
         });
-})
 
-
-
+function checkValue(){
+    if([...Object.values(scores)].includes(5)){
+        buttons.forEach(btn => btn.disabled = true)
+        notificationPanel(`Game Over; winner ${scores.pc > scores.user ? "pc" : "user"}`)
+    };
+};
 /*
 
 //humanPosition Processor
